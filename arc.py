@@ -1,4 +1,5 @@
 from asyncio import Queue
+from collections import deque
 from utils import *
 sudoku_csp = None
 arcs = None
@@ -6,9 +7,7 @@ arcs = None
 
 def ac3():
     
-    queue = []
-    print(1123)
-    queue.extend(arcs)
+    queue = deque(arcs)
     log_buffer = []
     valid = True
 
@@ -19,16 +18,19 @@ def ac3():
             log_buffer.append(f"{(r, c)}: {sudoku_csp['domains'][(r, c)]}")
     
     while len(queue) != 0:
-        (Xi, Xj) = queue.pop()
+
+        (Xi, Xj) = queue.popleft()
         
         if revise(Xi, Xj):
             if len(sudoku_csp['domains'][Xi]) == 0:
                 valid = False
                 break
-            for Xk in sudoku_csp['variables']:
-                if Xk != Xi and Xk != Xj and (Xk, Xi) not in queue:
-                    queue.append((Xk, Xi))
-            # break
+            for xi, xj in arcs:
+                if xj == Xi and (xi, Xi) not in queue:
+                    queue.append((xi, Xi))
+
+
+        
 
     log_buffer.append('After ARC Domains:')
 
@@ -36,7 +38,7 @@ def ac3():
         for c in range(9):
             log_buffer.append(f"{(r, c)}: {sudoku_csp['domains'][(r, c)]}")
 
-    with open('log.txt', 'a') as f:
+    with open('log.txt', 'w') as f:
         f.write('\n'.join(log_buffer))
 
     log_buffer.clear()
