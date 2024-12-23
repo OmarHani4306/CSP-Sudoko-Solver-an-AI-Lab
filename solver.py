@@ -74,8 +74,8 @@ def arc3(domains):
     queue = deque(arcs)  # Use dynamically built arcs
     log_buffer = []
     valid = True
-
-    log_buffer.append('Before ARC Domains:')
+    len_old_domains = [len(domains[(r, c)]) for r in range(9) for c in range(9)]
+    log_buffer.append('\nBefore ARC Domains:')
 
     for r in range(9):
         for c in range(9):
@@ -96,9 +96,10 @@ def arc3(domains):
 
     for r in range(9):
         for c in range(9):
-            log_buffer.append(f"{(r, c)}: {domains[(r, c)]}")
+            if len(domains[(r, c)]) != len_old_domains[r * 9 + c]:
+                log_buffer.append(f"{(r, c)}: {domains[(r, c)]}")
 
-    with open('log.txt', 'w') as f:
+    with open('log.txt', 'a') as f:
         f.write('\n'.join(log_buffer))
 
     log_buffer.clear()
@@ -180,7 +181,9 @@ def solve_sudoku_with_states(puzzle):
     result = backtrack(assignment, csp, states, puzzle)  # Call backtracking search
     if result:
         print("Solved Sudoku!")
+        return states
     else:
         print("No solution exists.")
+        return None
 
-    return states
+    
