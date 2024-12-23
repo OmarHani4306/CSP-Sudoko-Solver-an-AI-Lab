@@ -5,8 +5,7 @@ from utils import *
 sudoku_csp = None
 arcs = None
 
-
-def arc3():
+def arc3(domains):
     
     queue = deque(arcs)
     log_buffer = []
@@ -16,18 +15,18 @@ def arc3():
 
     for r in range(9):
         for c in range(9):
-            log_buffer.append(f"{(r, c)}: {sudoku_csp['domains'][(r, c)]}")
-    
-    while len(queue) != 0:
+            log_buffer.append(f"{(r, c)}: {domains[(r, c)]}")
 
+    while len(queue) != 0:
+        
         # tmp = str(queue.popleft()).zfill(4)
         # Xi, Xj = (int(tmp[0]), int(tmp[1])), (int(tmp[2]), int(tmp[3]))
         (Xi, Xj) = queue.popleft()
         # print(Xi, Xj)
         # time.sleep(1)
 
-        if revise(Xi, Xj):
-            if len(sudoku_csp['domains'][Xi]) == 0:
+        if revise(domains, Xi, Xj):
+            if len(domains[Xi]) == 0:
                 valid = False
                 break
             # for temp in arcs:
@@ -45,7 +44,7 @@ def arc3():
 
     for r in range(9):
         for c in range(9):
-            log_buffer.append(f"{(r, c)}: {sudoku_csp['domains'][(r, c)]}")
+            log_buffer.append(f"{(r, c)}: {domains[(r, c)]}")
 
     with open('log.txt', 'w') as f:
         f.write('\n'.join(log_buffer))
@@ -55,12 +54,12 @@ def arc3():
     return valid
 
 
-def revise(Xi, Xj):
+def revise(domains, Xi, Xj):
     # return True
     revised = False
-    for x in str(sudoku_csp['domains'][Xi]):
-        if not any((x, y) for y in str(sudoku_csp['domains'][Xj]) if  int(x) != int(y)):
-            sudoku_csp['domains'][Xi] = str(sudoku_csp['domains'][Xi]).replace(x, '')
+    for x in str(domains[Xi]):
+        if not any((x, y) for y in str(domains[Xj]) if  int(x) != int(y)):
+            domains[Xi] = str(domains[Xi]).replace(x, '')
             revised = True
     return revised
 
@@ -91,7 +90,7 @@ if __name__ == "__main__":
 
     arcs = build_arcs()
     print(arcs[:10])
-    print(arc3())
+    print(arc3(sudoku_csp['domains']))
     check=3
     for r in range(check):
         for c in range(check):
