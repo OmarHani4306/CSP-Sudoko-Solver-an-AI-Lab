@@ -119,27 +119,23 @@ class SudokuGame:
                     return
                     
         if is_valid_board(user_board):
+            # Flatten the user_board to create the initial state
+            initial_state = ''.join(map(str, [item for sublist in user_board for item in sublist])).zfill(81)
             
-            
-        
-             initial_state = ''.join(map(str, [item for sublist in user_board for item in sublist])).zfill(81)
-             states = solve_sudoku_with_states(initial_state)
-            
-            
-            
+            # Solve the Sudoku and get all intermediate states
+            states = solve_sudoku_with_states(initial_state)
 
-            if states == False:
-                messagebox.showerror("no solution", "the board has no solution")
-                return 
-
+            if states is False:
+                messagebox.showerror("No Solution", "The board has no solution!")
+                return
             
+            # Insert the initial state at the beginning of the list of states
             states.insert(0, initial_state)
             
+            # Simulate the gameplay with the states
             self.simulate_gameplay(states)
-
         else:
             messagebox.showerror("Invalid Board", "The Sudoku board is invalid!")
-
 
     def simulate_gameplay(self, states):
         """Simulate gameplay by updating the board step by step."""
@@ -169,7 +165,7 @@ class SudokuGame:
 
         if self.state_idx < len(self.states) - 1:
             self.state_idx += 1
-            self.root.after(1000, self.update_board)
+            self.root.after(1, self.update_board)
         
 
 if __name__ == "__main__":
