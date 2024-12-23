@@ -75,7 +75,7 @@ def arc3(domains):
     log_buffer = []
     valid = True
 
-    log_buffer.append('Before ARC Domains:')
+    log_buffer.append('\nBefore ARC Domains:')
 
     for r in range(9):
         for c in range(9):
@@ -98,8 +98,9 @@ def arc3(domains):
         for c in range(9):
             log_buffer.append(f"{(r, c)}: {domains[(r, c)]}")
 
-    with open('log.txt', 'w') as f:
-        f.write('\n'.join(log_buffer))
+    if valid:
+        with open('log.txt', 'a') as f:
+            f.write('\n'.join(log_buffer))
 
     log_buffer.clear()
     return valid

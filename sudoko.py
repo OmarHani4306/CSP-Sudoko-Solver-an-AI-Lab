@@ -51,6 +51,7 @@ class SudokuGame:
         if self.difficulty_frame:
             self.difficulty_frame.destroy()
             self.difficulty_frame = None
+
         messagebox.showinfo("Mode Selected", "User Mode Selected. Enter your Sudoku puzzle.")
 
 
@@ -102,6 +103,9 @@ class SudokuGame:
         """Solve the current Sudoku puzzle entered by the user."""
         user_board = [[0 for _ in range(9)] for _ in range(9)]
         
+        with open('log.txt', 'w') as f:
+            pass
+
         for i in range(9):
             for j in range(9):
                 try:
