@@ -1,5 +1,6 @@
 from asyncio import Queue
 from collections import deque
+import time
 from utils import *
 sudoku_csp = None
 arcs = None
@@ -19,17 +20,19 @@ def arc3():
     
     while len(queue) != 0:
 
-        # tmp = queue.popleft()
-        # Xi, Xj = (tmp >> 24, (tmp >> 16) & 0xFF), ((tmp >> 8) & 0xFF, tmp & 0xFF)
+        # tmp = str(queue.popleft()).zfill(4)
+        # Xi, Xj = (int(tmp[0]), int(tmp[1])), (int(tmp[2]), int(tmp[3]))
         (Xi, Xj) = queue.popleft()
         # print(Xi, Xj)
+        # time.sleep(1)
 
         if revise(Xi, Xj):
             if len(sudoku_csp['domains'][Xi]) == 0:
                 valid = False
                 break
             # for temp in arcs:
-            #     xi, xj = (temp >> 24, (temp >> 16) & 0xFF), ((temp >> 8) & 0xFF, temp & 0xFF)
+            #     temp = str(temp).zfill(4)
+            #     xi, xj = (int(temp[0]), int(temp[1])), (int(temp[2]), int(temp[3]))
 
             for xi, xj in arcs:
                 if xj == Xi:
@@ -82,6 +85,9 @@ if __name__ == "__main__":
     ]
 
     sudoku_csp = create_sudoku_csp(puzzle)
+
+
+
 
     arcs = build_arcs()
     print(arcs[:10])
