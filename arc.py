@@ -19,14 +19,20 @@ def ac3():
     
     while len(queue) != 0:
 
+        # tmp = queue.popleft()
+        # Xi, Xj = (tmp >> 24, (tmp >> 16) & 0xFF), ((tmp >> 8) & 0xFF, tmp & 0xFF)
         (Xi, Xj) = queue.popleft()
-        
+        # print(Xi, Xj)
+
         if revise(Xi, Xj):
             if len(sudoku_csp['domains'][Xi]) == 0:
                 valid = False
                 break
+            # for temp in arcs:
+            #     xi, xj = (temp >> 24, (temp >> 16) & 0xFF), ((temp >> 8) & 0xFF, temp & 0xFF)
+
             for xi, xj in arcs:
-                if xj == Xi and (xi, Xi) not in queue:
+                if xj == Xi:
                     queue.append((xi, Xi))
 
 
@@ -78,10 +84,9 @@ if __name__ == "__main__":
     sudoku_csp = create_sudoku_csp(puzzle)
 
     arcs = define_sudoku_arcs()
+    print(arcs[:10])
     print(ac3())
     check=3
     for r in range(check):
         for c in range(check):
             print(sudoku_csp['domains'][(r, c)])
-    
-

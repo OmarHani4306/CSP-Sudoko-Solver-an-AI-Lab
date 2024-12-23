@@ -12,19 +12,24 @@ def define_sudoku_arcs():
         for c1 in range(9):
             for c2 in range(c1 + 1, 9):
                 arcs.append(((r, c1), (r, c2)))
-                arcs.append(((r, c2), (r, c1)))  # Add reverse arc
+                arcs.append(((r, c2), (r, c1)))
+                # arcs.append(r << 24 | c1 << 16 | r << 8 | c2)
+                # arcs.append(r << 24 | c2 << 16 | r << 8 | c1)
 
     # Add column arcs
     for c in range(9):
         for r1 in range(9):
             for r2 in range(r1 + 1, 9):
                 arcs.append(((r1, c), (r2, c)))
-                arcs.append(((r2, c), (r1, c)))  # Add reverse arc
+                arcs.append(((r2, c), (r1, c)))
+                # arcs.append(r1 << 24 | c << 16 | r2 << 8 | c)
+                # arcs.append(r2 << 24 | c << 16 | r1 << 8 | c)
 
     # Add subgrid arcs
     for r_b in range(0, 9, 3):
         for c_b in range(0, 9, 3):
             cells = [
+                # r << 8 | c
                 (r, c)
                 for r in range(r_b, r_b + 3)
                 for c in range(c_b, c_b + 3)
@@ -32,7 +37,11 @@ def define_sudoku_arcs():
             for i in range(len(cells)):
                 for j in range(i + 1, len(cells)):
                     arcs.append((cells[i], cells[j]))
-                    arcs.append((cells[j], cells[i]))  # Add reverse arc
+                    arcs.append((cells[j], cells[i]))
+                    # print(cells[i], cells[j])
+                    # print(cells[i] << 8 | cells[j])
+                    # arcs.append(cells[i] << 8 | cells[j])
+                    # arcs.append(cells[j] << 8 | cells[i])
 
     return arcs
 
