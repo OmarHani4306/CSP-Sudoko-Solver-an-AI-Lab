@@ -74,7 +74,7 @@ def arc3(domains):
     queue = deque(arcs)  # Use dynamically built arcs
     log_buffer = []
     valid = True
-
+    len_old_domains = [len(domains[(r, c)]) for r in range(9) for c in range(9)]
     log_buffer.append('\nBefore ARC Domains:')
 
     for r in range(9):
@@ -96,7 +96,9 @@ def arc3(domains):
 
     for r in range(9):
         for c in range(9):
-            log_buffer.append(f"{(r, c)}: {domains[(r, c)]}")
+            if len(domains[(r, c)]) != len_old_domains[r * 9 + c]:
+                # log_buffer.append(f"{(r, c)}: {len(domains[(r, c)])} <- {len_old_domains[r * 9 + c]}") 
+                log_buffer.append(f"{(r, c)}: {domains[(r, c)]}")
 
     if valid:
         with open('log.txt', 'a') as f:
