@@ -5,7 +5,7 @@ sudoku_csp = None
 arcs = None
 
 
-def ac3():
+def arc3():
     
     queue = deque(arcs)
     log_buffer = []
@@ -83,9 +83,9 @@ if __name__ == "__main__":
 
     sudoku_csp = create_sudoku_csp(puzzle)
 
-    arcs = define_sudoku_arcs()
+    arcs = build_arcs()
     print(arcs[:10])
-    print(ac3())
+    print(arc3())
     check=3
     for r in range(check):
         for c in range(check):

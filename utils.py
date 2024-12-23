@@ -1,10 +1,4 @@
-def define_sudoku_arcs():
-    """
-    Define arcs for a Sudoku CSP based on rows, columns, and 3x3 subgrids.
-    
-    Returns:
-        list: A list of all arcs (tuples of variable pairs).
-    """
+def build_arcs():
     arcs = []
 
     # Add row arcs
