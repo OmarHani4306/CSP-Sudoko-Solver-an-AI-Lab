@@ -98,9 +98,9 @@ def arc3(domains):
         for c in range(9):
             if len(domains[(r, c)]) != len_old_domains[r * 9 + c]:
                 log_buffer.append(f"{(r, c)}: {domains[(r, c)]}")
-
-    with open('log.txt', 'a') as f:
-        f.write('\n'.join(log_buffer))
+    if valid:
+        with open('log.txt', 'a') as f:
+            f.write('\n'.join(log_buffer))
 
     log_buffer.clear()
     return valid

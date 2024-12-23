@@ -51,6 +51,7 @@ class SudokuGame:
         if self.difficulty_frame:
             self.difficulty_frame.destroy()
             self.difficulty_frame = None
+
         messagebox.showinfo("Mode Selected", "User Mode Selected. Enter your Sudoku puzzle.")
 
 
@@ -105,6 +106,9 @@ class SudokuGame:
         with open('log.txt', 'w') as f:
             pass
         
+        with open('log.txt', 'w') as f:
+            pass
+
         for i in range(9):
             for j in range(9):
                 try:
@@ -139,7 +143,6 @@ class SudokuGame:
             self.simulate_gameplay(states)
         else:
             messagebox.showerror("Invalid Board", "The Sudoku board is invalid!")
-
 
     def simulate_gameplay(self, states):
         """Simulate gameplay by updating the board step by step."""
