@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from utils import generate_valid_sudoku, is_valid_board
-
+from solver import *
 class SudokuGame:
     def __init__(self, root):
         # Initialize the main game window
@@ -121,28 +121,18 @@ class SudokuGame:
         if is_valid_board(user_board):
             
             
-            #############################################################################################
-            # Omar & Muhammad Ibrahim: Here is the connection between us. I'm sending you the 2D board. #
-            # remove the comment line (#) and mock "states" before using the code.                      #
-            #############################################################################################
-
-            # states = back_tracking(user_board)
-            states = [
-                "530070000600095000098000060800060003400803001700020006060000280000419005000080079",
-                "530170000600095000098000060800060003400803001700020006060000280000419005000080079",
-                "534170000600095000098000060800060003400803001700020006060000280000419005000080079",
-                "534170000600095000098008060800060003400803001700020006060000280000419005000080079",
-                "534170000600095000098008060800060003400803001700020006060090280000419005000080079",
-                "534170000600095000098008060800060003400803001700020006060090280000419005050080079",
-                "534170000600095000098008060800060003400803001700020006060090280000419005050080479",
-                "534170000600095000098008060807060003400803001700020006060090280000419005050080479",
-            ]
+        
+             initial_state = ''.join(map(str, [item for sublist in user_board for item in sublist])).zfill(81)
+             states = solve_sudoku_with_states(initial_state)
+            
+            
+            
 
             if states == False:
                 messagebox.showerror("no solution", "the board has no solution")
                 return 
 
-            initial_state = ''.join(map(str, [item for sublist in user_board for item in sublist])).zfill(81)
+            
             states.insert(0, initial_state)
             
             self.simulate_gameplay(states)
