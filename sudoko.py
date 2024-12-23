@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox
-from utils import generate_valid_sudoku, is_valid_board
+from utils import *
+from arc import *
+
+
 
 class SudokuGame:
     def __init__(self, root):
@@ -100,6 +103,7 @@ class SudokuGame:
 
     def solve_puzzle(self):
         """Solve the current Sudoku puzzle entered by the user."""
+        global arcs
         user_board = [[0 for _ in range(9)] for _ in range(9)]
         
         for i in range(9):
@@ -125,6 +129,12 @@ class SudokuGame:
             # Omar & Muhammad Ibrahim: Here is the connection between us. I'm sending you the 2D board. #
             # remove the comment line (#) and mock "states" before using the code.                      #
             #############################################################################################
+            
+            arcs = build_arcs()
+            if(arc3(create_sudoku_csp(user_board)["domains"])):
+                print("Valid")
+            else:
+                print("Invalid")
 
             # states = back_tracking(user_board)
             states = [
@@ -187,3 +197,4 @@ if __name__ == "__main__":
     root = tk.Tk()
     game = SudokuGame(root)
     root.mainloop()
+    # arcs = build_arcs()

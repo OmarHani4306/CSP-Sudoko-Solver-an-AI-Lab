@@ -3,10 +3,10 @@ from collections import deque
 import time
 from utils import *
 sudoku_csp = None
-arcs = None
+arcs = build_arcs()
 
 def arc3(domains):
-    
+
     queue = deque(arcs)
     log_buffer = []
     valid = True
@@ -88,9 +88,9 @@ if __name__ == "__main__":
 
 
 
-    arcs = build_arcs()
-    print(arcs[:10])
+    # arcs = build_arcs()
     print(arc3(sudoku_csp['domains']))
+    print(arcs[:10])
     check=3
     for r in range(check):
         for c in range(check):
