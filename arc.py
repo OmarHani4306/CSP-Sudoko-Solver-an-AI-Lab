@@ -3,29 +3,52 @@ from utils import *
 sudoku_csp = None
 arcs = None
 
+
 def ac3():
     
     queue = []
     print(1123)
-    for arc in arcs:
-        queue.append(arc)
-    # print(queue)
+    queue.extend(arcs)
+    log_buffer = []
+    valid = True
+
+    log_buffer.append('Before ARC Domains:')
+
+    for r in range(9):
+        for c in range(9):
+            log_buffer.append(f"{(r, c)}: {sudoku_csp['domains'][(r, c)]}")
     
     while len(queue) != 0:
         (Xi, Xj) = queue.pop()
+        
         if revise(Xi, Xj):
             if len(sudoku_csp['domains'][Xi]) == 0:
-                return False
+                valid = False
+                break
             for Xk in sudoku_csp['variables']:
-                if Xk != Xi and Xk != Xj:
-                    queue.put((Xk, Xi))
-    return True
+                if Xk != Xi and Xk != Xj and (Xk, Xi) not in queue:
+                    queue.append((Xk, Xi))
+            # break
+
+    log_buffer.append('After ARC Domains:')
+
+    for r in range(9):
+        for c in range(9):
+            log_buffer.append(f"{(r, c)}: {sudoku_csp['domains'][(r, c)]}")
+
+    with open('log.txt', 'a') as f:
+        f.write('\n'.join(log_buffer))
+
+    log_buffer.clear()
+
+    return valid
 
 
 def revise(Xi, Xj):
+    # return True
     revised = False
-    for x in sudoku_csp['domains'][Xi]:
-        if not any((x, y) for y in sudoku_csp['domains'][Xj] if sudoku_csp['constraints'][(Xi, Xj)](x, y)):
+    for x in sudoku_csp['domains'][Xi].copy():
+        if not any((x, y) for y in sudoku_csp['domains'][Xj] if  x != y):
             sudoku_csp['domains'][Xi].remove(x)
             revised = True
     return revised
@@ -51,11 +74,12 @@ if __name__ == "__main__":
     ]
 
     sudoku_csp = create_sudoku_csp(puzzle)
-    print(sudoku_csp['constraints'])
+
     arcs = define_sudoku_arcs()
-    ac3()
-    for r in range(3):
-        for c in range(3):
+    print(ac3())
+    check=3
+    for r in range(check):
+        for c in range(check):
             print(sudoku_csp['domains'][(r, c)])
     
 

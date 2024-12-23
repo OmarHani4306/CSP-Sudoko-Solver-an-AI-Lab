@@ -47,25 +47,30 @@ def create_sudoku_csp(puzzle):
     Returns:
         dict: A CSP with 'variables', 'domains', and 'constraints'.
     """
-    variables = [(r, c) for r in range(9) for c in range(9)]  # Variables for each cell
+    variables = [(r, c) for r in range(9) for c in range(9)]
     domains = {
-        (r, c): {puzzle[r][c]} if puzzle[r][c] != 0 else set(range(1, 10))  # Domain for each cell
+        (r, c): {puzzle[r][c]} if puzzle[r][c] != 0 else set(range(1, 10))  
         for r, c in variables
     }
+    # for r in range(9):
+    #     for c in range(9):
+    #         print((r, c), domains[(r, c)])  
     
+
+    sudoku_constraint = lambda x, y: x != y
     constraints = {}
     
     # Add row constraints
     for r in range(9):
         for c1 in range(9):
             for c2 in range(c1 + 1, 9):
-                constraints[((r, c1), (r, c2))] = lambda x, y: x != y
+                constraints[((r, c1), (r, c2))] = sudoku_constraint
     
     # Add column constraints
     for c in range(9):
         for r1 in range(9):
             for r2 in range(r1 + 1, 9):
-                constraints[((r1, c), (r2, c))] = lambda x, y: x != y
+                constraints[((r1, c), (r2, c))] = sudoku_constraint
     
     # Add subgrid constraints
     for r_b in range(0, 9, 3):
@@ -77,7 +82,7 @@ def create_sudoku_csp(puzzle):
             ]
             for i in range(len(cells)):
                 for j in range(i + 1, len(cells)):
-                    constraints[(cells[i], cells[j])] = lambda x, y: x != y
+                    constraints[(cells[i], cells[j])] = sudoku_constraint
     
     return {
         'variables': variables,
