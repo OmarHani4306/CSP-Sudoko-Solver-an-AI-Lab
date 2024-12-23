@@ -49,7 +49,7 @@ def create_sudoku_csp(puzzle):
     """
     variables = [(r, c) for r in range(9) for c in range(9)]
     domains = {
-        (r, c): {puzzle[r][c]} if puzzle[r][c] != 0 else set(range(1, 10))  
+        (r, c): puzzle[r][c] if puzzle[r][c] != 0 else 123456789
         for r, c in variables
     }
     # for r in range(9):

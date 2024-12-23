@@ -49,9 +49,9 @@ def ac3():
 def revise(Xi, Xj):
     # return True
     revised = False
-    for x in sudoku_csp['domains'][Xi].copy():
-        if not any((x, y) for y in sudoku_csp['domains'][Xj] if  x != y):
-            sudoku_csp['domains'][Xi].remove(x)
+    for x in str(sudoku_csp['domains'][Xi]):
+        if not any((x, y) for y in str(sudoku_csp['domains'][Xj]) if  int(x) != int(y)):
+            sudoku_csp['domains'][Xi] = str(sudoku_csp['domains'][Xi]).replace(x, '')
             revised = True
     return revised
 
