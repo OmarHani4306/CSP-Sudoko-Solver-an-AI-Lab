@@ -93,9 +93,9 @@ class SudokuGame:
         for i in range(9):
             for j in range(9):
                 if enable:
-                    self.entries[i][j].config(state=tk.NORMAL)
+                    self.entries[i][j].config(fg="black", state=tk.NORMAL)
                 else:
-                    self.entries[i][j].config(state=tk.DISABLED, disabledforeground="black")
+                    self.entries[i][j].config(fg="black", state=tk.DISABLED, disabledforeground="black")
 
 
     def solve_puzzle(self):
@@ -128,27 +128,31 @@ class SudokuGame:
 
             # states = back_tracking(user_board)
             states = [
-                530070000600095000098000060800060003400803001700020006060000280000419005000080079,
-                530170000600095000098000060800060003400803001700020006060000280000419005000080079,
-                534170000600095000098000060800060003400803001700020006060000280000419005000080079,
-                534170000600095000098008060800060003400803001700020006060000280000419005000080079,
-                534170000600095000098008060800060003400803001700020006060090280000419005000080079,
-                534170000600095000098008060800060003400803001700020006060090280000419005050080079,
-                534170000600095000098008060800060003400803001700020006060090280000419005050080479,
-                534170000600095000098008060807060003400803001700020006060090280000419005050080479,
+                "530070000600095000098000060800060003400803001700020006060000280000419005000080079",
+                "530170000600095000098000060800060003400803001700020006060000280000419005000080079",
+                "534170000600095000098000060800060003400803001700020006060000280000419005000080079",
+                "534170000600095000098008060800060003400803001700020006060000280000419005000080079",
+                "534170000600095000098008060800060003400803001700020006060090280000419005000080079",
+                "534170000600095000098008060800060003400803001700020006060090280000419005050080079",
+                "534170000600095000098008060800060003400803001700020006060090280000419005050080479",
+                "534170000600095000098008060807060003400803001700020006060090280000419005050080479",
             ]
 
             if states == False:
-                messagebox.showerror("the board has no solution")
+                messagebox.showerror("no solution", "the board has no solution")
+                return 
 
+            initial_state = ''.join(map(str, [item for sublist in user_board for item in sublist])).zfill(81)
+            states.insert(0, initial_state)
+            
             self.simulate_gameplay(states)
+
         else:
             messagebox.showerror("Invalid Board", "The Sudoku board is invalid!")
 
 
     def simulate_gameplay(self, states):
         """Simulate gameplay by updating the board step by step."""
-        states = [str(state).zfill(81) for state in states]
 
         self.state_idx = 0
         self.states = states
@@ -165,7 +169,7 @@ class SudokuGame:
             row, col = divmod(idx, 9)
             if char == "0":
                 self.board[row][col].set("")
-                self.entries[row][col].config(fg="black", state=tk.DISABLED, disabledforeground="black")
+                self.entries[row][col].config(fg = "black", state=tk.DISABLED, disabledforeground="black")
             else:
                 self.board[row][col].set(char)
                 if initial_state[idx] == "0" and char != "0":
