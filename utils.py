@@ -28,7 +28,7 @@ def build_arcs():
                 for r in range(r_b, r_b + 3)
                 for c in range(c_b, c_b + 3)
             ]
-            print(cells)
+            # print(cells)
             for i in range(len(cells)):
                 for j in range(i + 1, len(cells)):
                     arcs.append((cells[i], cells[j]))
